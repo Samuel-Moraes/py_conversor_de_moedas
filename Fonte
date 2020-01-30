@@ -1,3 +1,4 @@
+# Declaração de variaveis referentes aos valores que converterão o real
 dolar = 4.12
 euro = 4.89
 peso_argentino = 0.07
@@ -46,6 +47,7 @@ def calc_real_to_all():
 
   Digite a opção desejada: '''))
 
+  # Round é responsavel por truncar ( arredondar ) os valores decimais após a virgola.
   if opcao == 1:
     saida = entrada / dolar
     saida = round(saida,2)
@@ -69,8 +71,6 @@ def calc_real_to_all():
 
 def calc_all_to_real():
 
-  entrada = float(input('Digite a quantia em reais que deseja converter: '))
-
   opcao = int(input('''
   **************************
   * 1 - Convertee dolar *
@@ -79,20 +79,22 @@ def calc_all_to_real():
   **************************
 
   Digite a opção desejada: 
-  ))'''))
+  '''))
+
+  entrada = float(input('Digite a quantia de moedas que deseja converter: '))
 
   if opcao == 1:
-    saida = dolar * 1
+    saida = dolar * entrada
     print(saida)
     menu()
 
   elif opcao == 2:
-    saida = euro * 1
+    saida = euro * entrada
     print(saida)
     menu()
 
   elif opcao == 3:
-    saida = entrada * 1
+    saida = entrada * entrada
     print(saida)
     menu()
   
