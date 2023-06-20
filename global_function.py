@@ -13,7 +13,7 @@ def menu_inicial():
   ***************************************
   * 1 - Converter Moedas                *
   * 2 - Alterar Cotação das Moedas      *
-  * 3 - Desligar                        *
+  * 3 - Apresenta cotação atual         *
   * 4 - Informações                     *
   ***************************************
   ''')
@@ -35,32 +35,6 @@ def menu_inicial():
   ***************************************
 
             ''')
-
-# Não utilizado
-def qual_tenho_moeda():
-  lista_de_opcoes = [1, 2, 3, 4]
-  contador = 1
-  print('''
-  ***************************************
-  * 1 - Peso Argentino                  *
-  * 2 - Euro                            *
-  * 3 - Dolar                           *
-  ***************************************
-  ''')
-  while contador:
-    moeda = int(input('Informe a moeda que você tem: '))
-
-    if moeda == lista_de_opcoes[0]:
-      print('Moeda selecionada: Peso Argentino')
-      return 1
-    elif moeda == lista_de_opcoes[1]:
-      print('Moeda selecionada: Euro')
-      return 2
-    elif moeda == lista_de_opcoes[2]:
-      print('Moeda selecionada: Dolar')
-      return 3
-    else:
-       print('A moeda digitada não está entre as opções disponiveis! ')
   
 def qual_moeda_converter():
   print('''
@@ -307,8 +281,6 @@ def mostra_cotação():
   * Dolar Estadunidense: {}           *
   ***************************************
   '''.format(peso, euro, dolar))
-   
-
 
 def inicializador():
   print('''
@@ -325,7 +297,6 @@ def inicializador():
   '''
   )
 
-
 def versionamento():
   print('''
   |-------------------------------|
@@ -334,7 +305,7 @@ def versionamento():
   | Versão: 1.1    |         2023 |
   |-------------------------------|
 
-  + Existe um erro que aumenta um centavo quando é convertido real para outra moeda, isso foi necessario para corrigir as multiplas casas decimais
+  
   '''
   )
 
@@ -349,3 +320,29 @@ def versionamento_old():
   + Existe um erro que aumenta um centavo quando é convertido real para outra moeda, isso foi necessario para corrigir as multiplas casas decimais
   '''
   )
+
+# Não utilizado
+def qual_tenho_moeda():
+  lista_de_opcoes = [1, 2, 3, 4]
+  contador = 1
+  print('''
+  ***************************************
+  * 1 - Peso Argentino                  *
+  * 2 - Euro                            *
+  * 3 - Dolar                           *
+  ***************************************
+  ''')
+  while contador:
+    moeda = int(input('Informe a moeda que você tem: '))
+
+    if moeda == lista_de_opcoes[0]:
+      print('Moeda selecionada: Peso Argentino')
+      return 1
+    elif moeda == lista_de_opcoes[1]:
+      print('Moeda selecionada: Euro')
+      return 2
+    elif moeda == lista_de_opcoes[2]:
+      print('Moeda selecionada: Dolar')
+      return 3
+    else:
+       print('A moeda digitada não está entre as opções disponiveis! ')
