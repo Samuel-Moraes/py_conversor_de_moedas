@@ -1,3 +1,5 @@
+# Functions
+
 import subprocess # Limpa o console
 import os # Complemento da subprocess
  

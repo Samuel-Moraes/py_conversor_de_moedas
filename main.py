@@ -42,39 +42,12 @@ while True:
 
     elif retorno_menu == 4:
         global_function.versionamento()
-        time.sleep(1)
+        
 
     elif retorno_menu == 5:
         break
 
-<<<<<<< HEAD
     else:
         print('Nenhuma opção selecionada')
 
 
-=======
-elif global_function.menu_inicial() == 2:
-
-  retorno = global_function.atualiza_cotacao()
-  if retorno:
-        print(''' 
-  ***************************************
-  * A cotação foi atualizada com sucesso*
-  ***************************************
-  ''')
-  else:
-        print('''
-  ***************************************
-  * Ocorreu um erro ao atualizar a      *
-  * cotação!                            *
-  ***************************************
-        ''')
-
-elif global_function.menu_inicial() == 3:
-  global_function.mostra_cotação()
-
-elif global_function.menu_inicial() == 4:
-  global_function.versionamento()
-else:
-  print
->>>>>>> 5d1a54c7af4bd01332689c2db0f976b80ca7699c
