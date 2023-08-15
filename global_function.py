@@ -1,10 +1,9 @@
-import subprocess
-import os
-
+import subprocess # Limpa o console
+import os # Complemento da subprocess
+ 
 # Limpa o console
 def limpar_console():
     subprocess.call('clear' if os.name == 'posix' else 'cls', shell=True)
-#
 
 def menu_inicial():
     contador = 1
@@ -12,17 +11,25 @@ def menu_inicial():
     print('''
   ***************************************
   * 1 - Converter Moedas                *
-  * 2 - Alterar Cotação das Moedas      *
-  * 3 - Desligar                        *
-  * 4 - Informações                     *
+  * 2 - Valor das cotações atuais       *
+  * 3 - Atualiza Cotação das Moedas     *
+  * 4 - Versionamento                   *
+  * 5 - Desligar                        *
   ***************************************
   ''')
     
     while contador:
-        opcao_selecionada = int(input('''
+        try:
+          opcao_selecionada = int(input('''
   ***************************************
   * Digite a opção desejada para iniciar*
   * o sistema: '''))
+        except:
+           print('''
+  ***************************************
+  * Opção Inválida!                     *
+  ***************************************
+                 ''')
 
         if opcao_selecionada in lista_de_opcoes:
             contador = 0
@@ -35,33 +42,7 @@ def menu_inicial():
   ***************************************
 
             ''')
-
-# Não utilizado
-def qual_tenho_moeda():
-  lista_de_opcoes = [1, 2, 3, 4]
-  contador = 1
-  print('''
-  ***************************************
-  * 1 - Peso Argentino                  *
-  * 2 - Euro                            *
-  * 3 - Dolar                           *
-  ***************************************
-  ''')
-  while contador:
-    moeda = int(input('Informe a moeda que você tem: '))
-
-    if moeda == lista_de_opcoes[0]:
-      print('Moeda selecionada: Peso Argentino')
-      return 1
-    elif moeda == lista_de_opcoes[1]:
-      print('Moeda selecionada: Euro')
-      return 2
-    elif moeda == lista_de_opcoes[2]:
-      print('Moeda selecionada: Dolar')
-      return 3
-    else:
-       print('A moeda digitada não está entre as opções disponiveis! ')
-  
+ 
 def qual_moeda_converter():
   print('''
   ---------------------------------------------
@@ -114,20 +95,20 @@ def qual_moeda_converter():
 def conversor(quantidade_a_converter, moeda_que_converto):
    
   if moeda_que_converto == 1:
-    arquivo = open('peso.txt', 'r')
+    arquivo = open('cotacoes/peso.txt', 'r')
     valor_moeda = float(arquivo.readline())
-    print('''
+    print(f'''
   ***************************************
   * A cotação da moeda selecionada está *
-  * em: {0}                            *
+  * em: {valor_moeda}                            *
   ***************************************
-   '''.format(valor_moeda))
+   ''')
     arquivo.close()
-    quantidade_convertida = quantidade_a_converter / valor_moeda
+    quantidade_convertida = quantidade_a_converter * valor_moeda
     print(quantidade_convertida)
       
   if moeda_que_converto == 2:
-    arquivo = open('euro.txt', 'r')
+    arquivo = open('cotacoes/euro.txt', 'r')
     valor_moeda = float(arquivo.readline())
     print('''
   ***************************************
@@ -136,20 +117,20 @@ def conversor(quantidade_a_converter, moeda_que_converto):
   ***************************************
     '''.format(valor_moeda))
     arquivo.close()
-    quantidade_convertida = quantidade_a_converter / valor_moeda
+    quantidade_convertida = quantidade_a_converter * valor_moeda
     print(quantidade_convertida)
 
   if moeda_que_converto == 3:
-    arquivo = open('dolar.txt', 'r')
+    arquivo = open('cotacoes/dolar.txt', 'r')
     valor_moeda = float(arquivo.readline())
-    print('''
+    print(f'''
   ***************************************
   * A cotação da moeda selecionada está *
-  * em: {0}                             *
+  * em: {valor_moeda}                             *
   ***************************************
-    '''.format(valor_moeda))
+    ''')
     arquivo.close()
-    quantidade_convertida = quantidade_a_converter / valor_moeda
+    quantidade_convertida = quantidade_a_converter * valor_moeda
     print(quantidade_convertida)
 
 def quantidade():
@@ -158,7 +139,7 @@ def quantidade():
    while contador:
       valor = float(input('''
   ***************************************
-  * Informe a quantidade de reais que   *
+  * Informe a quantidade da moeda que   *
   * deseja converter: '''))
 
       if valor < 0:
@@ -173,26 +154,20 @@ def quantidade():
          return valor
 
 def atualiza_cotacao():
-    print('''
-  ---------------------------------------------
-  
-  ''')
     moedas_validas = [1,2,3]
     contador = 1
 
-    peso_arquivo = open('peso.txt', 'r')
+    peso_arquivo = open('cotacoes/peso.txt', 'r')
     peso = str(peso_arquivo.readline())
     peso_arquivo.close()
 
-    euro_arquivo = open('euro.txt', 'r')
+    euro_arquivo = open('cotacoes/euro.txt', 'r')
     euro = float(euro_arquivo.readline())
     euro_arquivo.close()
 
-    dolar_arquivo = open('dolar.txt', 'r')
+    dolar_arquivo = open('cotacoes/dolar.txt', 'r')
     dolar = str(dolar_arquivo.readline())
     dolar_arquivo.close()
-
-
 
     print('''
   ***************************************
@@ -209,21 +184,20 @@ def atualiza_cotacao():
   * atualizar o valor: '''))
        
        if moeda in moedas_validas:
-
           if moeda == 1:
-            print('''
+            print(f'''
   ***************************************
   * Moeda selecionada: Peso Argentino   *
-  * A cotação atual da moeda é: {}   *
+  * A cotação atual da moeda é: {peso}   *
   ***************************************
-            '''.format(peso))
+            ''')
 
             valor = input('''
   ***************************************
   * Informe a cotação atual: ''')
             try:
                valor = float(valor)
-               peso_arquivo = open('peso.txt', 'w')
+               peso_arquivo = open('cotacoes/peso.txt', 'w')
                peso_arquivo.write(str(valor))
                peso_arquivo.close()
                return True
@@ -231,19 +205,19 @@ def atualiza_cotacao():
                return False
 
           elif moeda == 2:
-            print('''
+            print(f'''
   ***************************************
   * Moeda selecionada: Euro             *
-  * A cotação atual da moeda é: {}   *
+  * A cotação atual da moeda é: {euro}   *
   ***************************************
-            '''.format(euro))
+            ''')
 
             valor = input('''
   ***************************************
   * Informe a cotação atual: ''')
             try:
                valor = float(valor)
-               euro_arquivo = open('euro.txt', 'w')
+               euro_arquivo = open('cotacoes/euro.txt', 'w')
                euro_arquivo.write(str(valor))
                euro_arquivo.close()
                return True
@@ -251,12 +225,12 @@ def atualiza_cotacao():
                return False
 
           elif moeda == 3:
-            print('''
+            print(f'''
   ***************************************
   * Moeda selecionada: Dolar            *
-  * A cotação atual da moeda é: {}   *
+  * A cotação atual da moeda é: {dolar}   *
   ***************************************
-            '''.format(dolar))
+            ''')
 
             valor = input('''
   ***************************************
@@ -264,7 +238,7 @@ def atualiza_cotacao():
             try:
               document = valor
               valor = float(valor)
-              dolar_arquivo = open('euro.txt', 'w')
+              dolar_arquivo = open('cotacoes/dolar.txt', 'w')
               dolar_arquivo.write(document)
               dolar_arquivo.close()
               print(document, valor)
@@ -282,33 +256,31 @@ def atualiza_cotacao():
   ***************************************''')
     
 def mostra_cotação():
-  print('''
-  ---------------------------------------------
-  
-  ''')
-  peso_arquivo = open('peso.txt', 'r')
+  peso_arquivo = open('cotacoes/peso.txt', 'r')
   peso = str(peso_arquivo.readline())
   peso_arquivo.close()
 
-  euro_arquivo = open('euro.txt', 'r')
+  euro_arquivo = open('cotacoes/euro.txt', 'r')
   euro = float(euro_arquivo.readline())
   euro_arquivo.close()
 
-  dolar_arquivo = open('dolar.txt', 'r')
+  dolar_arquivo = open('cotacoes/dolar.txt', 'r')
   dolar = str(dolar_arquivo.readline())
   dolar_arquivo.close()
 
-  print('''
+  peso = float(peso)
+  euro = float(euro)
+  dolar = float(dolar)
+
+  print(f'''
   ***************************************
   *           Cotações atuais           *
   ***************************************
-  * Peso Argentino: {}               *
-  * Euro: {}                          *
-  * Dolar Estadunidense: {}           *
+  * Peso Argentino: {peso:.2f}                *
+  * Euro: {euro:.2f}                          *
+  * Dolar Estadunidense: {dolar:.2f}           *
   ***************************************
-  '''.format(peso, euro, dolar))
-   
-
+  ''')
 
 def inicializador():
   print('''
@@ -324,7 +296,6 @@ def inicializador():
   
   '''
   )
-
 
 def versionamento():
   print('''
@@ -349,3 +320,29 @@ def versionamento_old():
   + Existe um erro que aumenta um centavo quando é convertido real para outra moeda, isso foi necessario para corrigir as multiplas casas decimais
   '''
   )
+
+# Não utilizado
+def qual_tenho_moeda():
+  lista_de_opcoes = [1, 2, 3, 4]
+  contador = 1
+  print('''
+  ***************************************
+  * 1 - Peso Argentino                  *
+  * 2 - Euro                            *
+  * 3 - Dolar                           *
+  ***************************************
+  ''')
+  while contador:
+    moeda = int(input('Informe a moeda que você tem: '))
+
+    if moeda == lista_de_opcoes[0]:
+      print('Moeda selecionada: Peso Argentino')
+      return 1
+    elif moeda == lista_de_opcoes[1]:
+      print('Moeda selecionada: Euro')
+      return 2
+    elif moeda == lista_de_opcoes[2]:
+      print('Moeda selecionada: Dolar')
+      return 3
+    else:
+       print('A moeda digitada não está entre as opções disponiveis! ')
