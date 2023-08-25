@@ -1,12 +1,12 @@
 import global_function
 import time
 
-
 # 1 - Corversor
 # 2 - Mostra Cotação
 # 3 - Atualiza Cotação
 # 4 - Versionamento
 # 5 - Desligar
+
 global_function.limpar_console()
 global_function.inicializador()
 
@@ -43,7 +43,6 @@ while True:
     elif retorno_menu == 4:
         global_function.versionamento()
         
-
     elif retorno_menu == 5:
         break
 

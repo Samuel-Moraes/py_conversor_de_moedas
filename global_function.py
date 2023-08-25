@@ -1,5 +1,3 @@
-# Functions
-
 import subprocess # Limpa o console
 import os # Complemento da subprocess
  
@@ -8,8 +6,11 @@ def limpar_console():
     subprocess.call('clear' if os.name == 'posix' else 'cls', shell=True)
 
 def menu_inicial():
-    contador = 1
-    lista_de_opcoes = [1, 2, 3, 4]
+    texto_entrada = '''
+  ***************************************
+  * Digite a opção desejada para iniciar*
+  * o sistema: '''
+    
     print('''
   ***************************************
   * 1 - Converter Moedas                *
@@ -20,32 +21,28 @@ def menu_inicial():
   ***************************************
   ''')
     
-    while contador:
-        try:
-          opcao_selecionada = int(input('''
-  ***************************************
-  * Digite a opção desejada para iniciar*
-  * o sistema: '''))
-        except:
-           print('''
-  ***************************************
-  * Opção Inválida!                     *
-  ***************************************
-                 ''')
+    while True:        
+        opcao_selecionada = m_chamaValor(texto_entrada, 1)
 
-        if opcao_selecionada in lista_de_opcoes:
-            contador = 0
-            return opcao_selecionada
-
-        else:
+        if opcao_selecionada.retornoStatus():
+          if opcao_selecionada.retornoValor() in [1,2,3,4]:
+            return opcao_selecionada.retornoValor()
+            break
+          else:
             print(''' 
-  ***************************************
-  * Nenhuma opção foi selecionada!      *
-  ***************************************
+    ***************************************
+    * Nenhuma opção foi selecionada!      *
+    ***************************************
 
-            ''')
+              ''')
+            
  
 def qual_moeda_converter():
+  textoEntrada = '''
+  ***************************************
+  * Informe a moeda que você quer       *
+  * converter: '''
+
   print('''
   ---------------------------------------------
   
@@ -60,39 +57,37 @@ def qual_moeda_converter():
   ***************************************
   ''')
   while contador:
-    moeda = int(input('''
-  ***************************************
-  * Informe a moeda que você quer       *
-  * converter: '''))
 
-    if moeda == lista_de_opcoes[0]:
-      print('''
-  ***************************************
-  * Moeda selecionada: Peso Argentino   *
-  ***************************************
-  ''')
-      return 1
-    elif moeda == lista_de_opcoes[1]:
-      print('''
-  ***************************************
-  * Moeda selecionada: Euro             *
-  ***************************************
-      ''')
-      return 2
-    elif moeda == lista_de_opcoes[2]:
-      print('''
-  ***************************************
-  * Moeda selecionada: Dolar            *
-  ***************************************
-      ''')
-      return 3
-    else:
-       print('''
-  ***************************************
-  * A moeda digitada não está entre as  *
-  * opções disponiveis!                 *
-  ***************************************
-       ''') 
+    moeda = m_chamaValor(textoEntrada, 1)
+    if moeda.retornoStatus():
+      if moeda.retornoValor() == lista_de_opcoes[0]:
+        print('''
+    ***************************************
+    * Moeda selecionada: Peso Argentino   *
+    ***************************************
+    ''')
+        return 1
+      elif moeda.retornoValor() == lista_de_opcoes[1]:
+        print('''
+    ***************************************
+    * Moeda selecionada: Euro             *
+    ***************************************
+        ''')
+        return 2
+      elif moeda.retornoValor() == lista_de_opcoes[2]:
+        print('''
+    ***************************************
+    * Moeda selecionada: Dolar            *
+    ***************************************
+        ''')
+        return 3
+      else:
+        print('''
+    ***************************************
+    * A moeda digitada não está entre as  *
+    * opções disponiveis!                 *
+    ***************************************
+        ''') 
 
 def conversor(quantidade_a_converter, moeda_que_converto):
    
@@ -136,24 +131,26 @@ def conversor(quantidade_a_converter, moeda_que_converto):
     print(quantidade_convertida)
 
 def quantidade():
-   contador = 1
-
-   while contador:
-      valor = float(input('''
+   textoEntrada = '''
   ***************************************
   * Informe a quantidade da moeda que   *
-  * deseja converter: '''))
+  * deseja converter: '''
 
-      if valor < 0:
-         print('''
-  ***************************************
-  * O valor informado é negativo, assim *
-  * não pode ser convertido!            *
-  ***************************************
-         ''')
-      else:
-         contador = 0
-         return valor
+   while True:
+      valor = m_chamaValor(textoEntrada, 1)
+
+      if valor.retornoStatus():
+        if valor.retornoValor() < 0:
+          print('''
+    ***************************************
+    * O valor informado é negativo, assim *
+    * não pode ser convertido!            *
+    ***************************************
+          ''')
+        else:
+          
+          return valor.retornoValor()
+          break
 
 def atualiza_cotacao():
     moedas_validas = [1,2,3]
@@ -323,28 +320,78 @@ def versionamento_old():
   '''
   )
 
-# Não utilizado
-def qual_tenho_moeda():
-  lista_de_opcoes = [1, 2, 3, 4]
-  contador = 1
-  print('''
-  ***************************************
-  * 1 - Peso Argentino                  *
-  * 2 - Euro                            *
-  * 3 - Dolar                           *
-  ***************************************
-  ''')
-  while contador:
-    moeda = int(input('Informe a moeda que você tem: '))
+def m_chamaValor(textoEntrada, tipoDado):
+  # 1 = Int
+  # 2 = Float
+  # 3 - Str
 
-    if moeda == lista_de_opcoes[0]:
-      print('Moeda selecionada: Peso Argentino')
-      return 1
-    elif moeda == lista_de_opcoes[1]:
-      print('Moeda selecionada: Euro')
-      return 2
-    elif moeda == lista_de_opcoes[2]:
-      print('Moeda selecionada: Dolar')
-      return 3
-    else:
-       print('A moeda digitada não está entre as opções disponiveis! ')
+  entrada = entrada_generica(valor = 0, status = False)
+  if(tipoDado == 1):
+    try:
+        valor = int(input(textoEntrada))
+        entrada.populaValor(valor)
+        entrada.populaStatus(True)
+        return entrada
+    except:
+        print('''
+
+    ***************************************
+    * Valor informado inválido!           *
+    ***************************************
+              
+              ''')
+        entrada.populaStatus(False)
+        return entrada
+  
+  if(tipoDado == 2):
+    try:
+        valor = float(input(textoEntrada))
+        entrada.populaValor(valor)
+        entrada.populaStatus(True)
+        return entrada
+    except:
+        print('''
+
+    ***************************************
+    * Valor informado inválido!           *
+    ***************************************
+              
+              ''')
+        entrada.populaStatus(False)
+        return entrada
+  
+  if(tipoDado == 3):
+    try:
+        valor = input(textoEntrada)
+        entrada.populaValor(valor)
+        entrada.populaStatus(True)
+        return entrada
+    except:
+        print('''
+
+    ***************************************
+    * Valor informado inválido!           *
+    ***************************************
+              
+              ''')
+        entrada.populaStatus(False)
+        return entrada
+
+class entrada_generica:
+    def __init__(self, valor, status):
+      self.valor = valor
+      self.status = status
+
+    def populaValor(self, valorRecebido):
+      self.valor = valorRecebido
+      return self.valor
+  
+    def populaStatus(self, statusRecebido):
+       self.status = statusRecebido
+       return self.status
+
+    def retornoValor(self):
+      return self.valor
+   
+    def retornoStatus(self):
+      return self.status
